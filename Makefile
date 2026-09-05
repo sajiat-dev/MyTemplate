@@ -1,49 +1,29 @@
-.PHONY: docs test agent-setup agent-resetdb agent-smoke agent-test
+PYTHON := python3
+VENV := .venv
+PIP := $(VENV)/bin/pip
+PYTEST := $(VENV)/bin/pytest
 
-VENV_PYTHON=env/bin/python
-AGENT_TEST_FILES=$(shell git ls-files 'tests/*.py')
+.PHONY: install test lint build clean ci
 
-help:
-	@echo "  env         create a development environment using virtualenv"
-	@echo "  deps        install dependencies using pip"
-	@echo "  clean       remove unwanted files like .pyc's"
-	@echo "  lint        check style with flake8"
-	@echo "  test        run all your tests using py.test"
-	@echo "  agent-setup install dependencies in ./env for AI/code agents"
-	@echo "  agent-resetdb reset and seed local development database"
-	@echo "  agent-smoke run fast smoke tests"
-	@echo "  agent-test  run full test suite with coverage"
-
-env:
-	python3 -m venv env && \
-	. env/bin/activate && \
-	make deps
-
-deps:
-	pip install -r requirements.txt
-
-clean:
-	find . | grep -E "(__pycache__|\.pyc|\.DS_Store|\.db|\.pyo$\)" | xargs rm -rf
-
-lint:
-	flake8 --exclude=env .
+install:
+	$(PYTHON) -m venv $(VENV)
+	$(PIP) install --upgrade pip
+	$(PIP) install -r requirements.txt
+	$(PIP) install -r requirements-dev.txt
 
 test:
-	py.test tests
+	$(PYTEST) -v
 
-agent-setup:
-	python3 -m venv env
-	$(VENV_PYTHON) -m pip install --upgrade pip
-	$(VENV_PYTHON) -m pip install -r requirements.txt
+lint:
+	$(VENV)/bin/flake8 .
 
-agent-resetdb:
-	@if [ ! -x "$(VENV_PYTHON)" ]; then echo "Run 'make agent-setup' first."; exit 1; fi
-	APPNAME_ENV=dev $(VENV_PYTHON) manage.py resetdb
+build:
+	$(PIP) install -r requirements.txt
 
-agent-smoke:
-	@if [ ! -x "$(VENV_PYTHON)" ]; then echo "Run 'make agent-setup' first."; exit 1; fi
-	APPNAME_ENV=test $(VENV_PYTHON) -m pytest -q tests/test_urls.py tests/test_login.py
+clean:
+	rm -rf $(VENV)
+	rm -rf .pytest_cache
+	rm -rf __pycache__
+	rm -rf .coverage
 
-agent-test:
-	@if [ ! -x "$(VENV_PYTHON)" ]; then echo "Run 'make agent-setup' first."; exit 1; fi
-	APPNAME_ENV=test $(VENV_PYTHON) -m pytest --cov-report=term-missing --cov=appname $(AGENT_TEST_FILES)
+ci: lint test build
