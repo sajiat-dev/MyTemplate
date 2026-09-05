@@ -1,6 +1,6 @@
-[![MyTemplate](https://user-images.githubusercontent.com/882381/45938197-49cfb880-bf7c-11e8-91ea-94fffd9d054a.png)](https://github.com/sumukh/MyTemplate)
+[![MyTemplate](https://user-images.githubusercontent.com/882381/45938197-49cfb880-bf7c-11e8-91ea-94fffd9d054a.png)](https://github.com/sajiat-dev/MyTemplate)
 
-# MyTemplate for Flask [![Flask PyTest CI](https://github.com/Sumukh/MyTemplate/actions/workflows/flask-pytest.yml/badge.svg)](https://github.com/Sumukh/MyTemplate/actions/workflows/flask-pytest.yml)
+# MyTemplate for Flask [![Flask PyTest CI](https://github.com/sajiat-dev/MyTemplate/actions/workflows/flask-pytest.yml/badge.svg)](https://github.com/sajiat-dev/MyTemplate/actions/workflows/flask-pytest.yml)
 
 MyTemplate is a scaffold for starting new SaaS applications built using Python and Flask. It takes care of the boilerplate code (like User Registration, OAuth, Teams, and Billing), allowing you to focus on building your application. MyTemplate is built upon best practices for modern Flask applications.
 
@@ -123,7 +123,7 @@ Documentation is currently provided for installations on Dokku.
 
 ## License
 
-This is a commercial product. You may purchase a license for commercial use at [MyTemplate Website](https://MyTemplate.sumukh.me)
+This is a commercial product. You may purchase a license for commercial use at [MyTemplate Website](https://MyTemplate.sajiat-dev.me)
 
 Here's a summary:
 
@@ -153,7 +153,7 @@ Built off of [Flask Foundation](https://jackstouffer.github.io/Flask-Foundation/
 
 Only building out an API using Flask?
 
-- Use [create-flask-api](https://github.com/Sumukh/create-flask-api)
+- Use [create-flask-api](https://github.com/sajiat-dev/create-flask-api)
 
 **Course: [Fullstack Flask: Build a SaaS using Python and Flask](https://www.newline.co/fullstack-flask/)**
 

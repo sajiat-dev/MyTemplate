@@ -8,9 +8,9 @@
     "scaffolding",
     "MyTemplate"
   ],
-  "website": "https://github.com/sumukh/MyTemplate/",
-  "repository": "https://github.com/sumukh/MyTemplate/",
-  "logo": "https://github.com/Sumukh/MyTemplate/raw/master/appname/static/public/MyTemplate/MyTemplate-icon.png",
+  "website": "https://github.com/sajiat-dev/MyTemplate/",
+  "repository": "https://github.com/sajiat-dev/MyTemplate/",
+  "logo": "https://github.com/sajiat-dev/MyTemplate/raw/master/appname/static/public/MyTemplate/MyTemplate-icon.png",
   "success_url": "/",
   "scripts": {
     "predeploy": "flask assets build",
