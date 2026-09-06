@@ -1,13 +1,12 @@
-name: Flask CI
+name: MyTemplate CI
 
-# Enable CI/CD for pushes and pull requests targeting main.
 on:
-  push:
-    branches:
-      - "main"
-  pull_request:
-    branches:
-      - "main"
+push:
+  branches:
+    - "main"
+pull_request:
+  branches:
+    - "main"
 
 jobs:
 build:
