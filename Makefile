@@ -1,29 +1,21 @@
-PYTHON := python3
-VENV := .venv
-PIP := $(VENV)/bin/pip
-PYTEST := $(VENV)/bin/pytest
+PYTHON ?= python
 
-.PHONY: install test lint build clean ci
+.PHONY: install lint test build ci clean
 
 install:
-	$(PYTHON) -m venv $(VENV)
-	$(PIP) install --upgrade pip
-	$(PIP) install -r requirements.txt
-	$(PIP) install -r requirements-dev.txt
-
-test:
-	$(PYTEST) -v
+	$(PYTHON) -m pip install --upgrade pip
+	$(PYTHON) -m pip install -r requirements.txt
 
 lint:
-	$(VENV)/bin/flake8 .
+	$(PYTHON) -m flake8 appname tests
+
+test:
+	$(PYTHON) -m pytest -v --cov=appname --cov-report=term-missing tests/
 
 build:
-	$(PIP) install -r requirements.txt
-
-clean:
-	rm -rf $(VENV)
-	rm -rf .pytest_cache
-	rm -rf __pycache__
-	rm -rf .coverage
+	$(PYTHON) -m compileall appname
 
 ci: lint test build
+
+clean:
+	$(PYTHON) -m pip cache purge
