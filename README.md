@@ -853,9 +853,7 @@ Review build-artifacts
 
 ------------------------------------------------------------------------
 
-# Submission Checklist
-
-Before submitting the repository, verify:
+# Checklist
 
 -   [x] Application renamed/updated to MyTemplate where appropriate
 -   [x] Makefile added
