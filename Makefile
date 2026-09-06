@@ -30,13 +30,12 @@ test: prepare
 		--cov-report=html:$(ARTIFACTS)/coverage/html
 
 # Run static analysis and linting.
-lint:
-	$(PYTHON) -m ruff check .
+lint: prepare
+	$(PYTHON) -m ruff check . --output-format=json --output-file=$(ARTIFACTS)/ruff.json
 
 # Run security checks.
-security:
-	$(PYTHON) -m bandit -r appname
-
+security: prepare
+	$(PYTHON) -m bandit -r appname -f json -o $(ARTIFACTS)/bandit.json
 # Validate Python source compilation.
 build:
 	$(PYTHON) -m compileall appname
