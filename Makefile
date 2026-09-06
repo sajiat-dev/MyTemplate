@@ -1,21 +1,49 @@
-PYTHON ?= python
+SYSTEM_PYTHON ?= python
+VENV := .venv
+ARTIFACTS := artifacts
 
-.PHONY: install lint test build ci clean
+# Use the correct Python executable for Windows or Unix/Linux.
+ifeq ($(OS),Windows_NT)
+    PYTHON := $(VENV)/Scripts/python.exe
+else
+    PYTHON := $(VENV)/bin/python
+endif
 
+.PHONY: install test lint security build ci clean
+
+# Create the virtual environment and install all dependencies.
 install:
+	$(SYSTEM_PYTHON) -m venv $(VENV)
 	$(PYTHON) -m pip install --upgrade pip
-	$(PYTHON) -m pip install -r requirements.txt
+	$(PYTHON) -m pip install -r requirements-dev.txt
 
+#prepare the artifacts directories for test results and coverage reports.
+prepare:
+	$(SYSTEM_PYTHON) -c "import os; os.makedirs('$(ARTIFACTS)/junit', exist_ok=True); os.makedirs('$(ARTIFACTS)/coverage', exist_ok=True)"
+
+# Run backend tests and save the artifacts for CI reporting.
+test: prepare
+	$(PYTHON) -m pytest -v \
+		--junitxml=$(ARTIFACTS)/junit/pytest.xml \
+		--cov=appname \
+		--cov-report=xml:$(ARTIFACTS)/coverage/coverage.xml \
+		--cov-report=html:$(ARTIFACTS)/coverage/html
+
+# Run static analysis and linting.
 lint:
-	$(PYTHON) -m flake8 appname tests
+	$(PYTHON) -m ruff check .
 
-test:
-	$(PYTHON) -m pytest -v --cov=appname --cov-report=term-missing tests/
+# Run security checks.
+security:
+	$(PYTHON) -m bandit -r appname
 
+# Validate Python source compilation.
 build:
 	$(PYTHON) -m compileall appname
 
-ci: lint test build
+# Run the complete CI validation.
+ci: lint security test build
 
+# Remove generated Python/test files and the virtual environment.
 clean:
-	$(PYTHON) -m pip cache purge
+	$(SYSTEM_PYTHON) -c "import shutil; shutil.rmtree('.venv', ignore_errors=True); shutil.rmtree('.pytest_cache', ignore_errors=True); shutil.rmtree('.ruff_cache', ignore_errors=True); shutil.rmtree('.coverage', ignore_errors=True)"

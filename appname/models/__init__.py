@@ -6,8 +6,8 @@ import os
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_sqlalchemy.query import Query as BaseQuery
-from sqlalchemy_utils import force_auto_coercion, force_instant_defaults
 from sqlalchemy import MetaData
+from sqlalchemy_utils import force_auto_coercion, force_instant_defaults
 
 convention = {
     "ix": 'ix_%(column_0_label)s',

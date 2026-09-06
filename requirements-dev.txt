@@ -1,0 +1,12 @@
+-r requirements.txt
+
+# Testing
+pytest==8.2.0
+pytest-cov==4.0.0
+pytest-playwright
+
+# Static analysis / linting
+ruff
+
+# Security scanning
+bandit

@@ -1,15 +1,13 @@
 import logging
 
-from flask_login import UserMixin, AnonymousUserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
-
+from flask_dance.consumer.storage.sqla import OAuthConsumerMixin
+from flask_login import AnonymousUserMixin, UserMixin
 from sqlalchemy.orm.collections import attribute_mapped_collection
 from sqlalchemy_utils.types import EncryptedType
 from sqlalchemy_utils.types.encrypted.encrypted_type import FernetEngine
+from werkzeug.security import check_password_hash, generate_password_hash
 
-from flask_dance.consumer.storage.sqla import OAuthConsumerMixin
-
-from appname.models import db, Model, ModelProxy, global_encryption_key_iv
+from appname.models import Model, ModelProxy, db, global_encryption_key_iv
 
 logger = logging.getLogger(__name__)
 

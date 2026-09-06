@@ -49,7 +49,12 @@ env*
 .DS_Store
 *.sublime-*
 
+# Ruff
+.ruff_cache/
+
 # Temp/Build files
 tmp/*
 !tmp/.touch
 
+#exclude artifacts folder from git
+artifacts/

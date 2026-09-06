@@ -1,5 +1,5 @@
 import os
-import tempfile
+
 
 class Config(object):
     # run flask generate_secret_key
@@ -79,13 +79,12 @@ class TestConfig(Config):
     ENV = 'test'
     DEBUG = True
     DEBUG_TB_INTERCEPT_REDIRECTS = False
-
-    db_file = tempfile.NamedTemporaryFile()
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + db_file.name
+    
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     SQLALCHEMY_ECHO = False  # Optionally enable if you want to see database actions
     ASSETS_DEBUG = True
 
-    CACHE_TYPE = 'null'
+    CACHE_TYPE ='NullCache' 
     CACHE_NO_NULL_WARNING = True
     WTF_CSRF_ENABLED = False
     RQ_ASYNC = False

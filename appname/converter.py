@@ -2,6 +2,7 @@ from werkzeug.routing import BaseConverter, ValidationError
 
 from appname.extensions import hashids
 
+
 class BoolConverter(BaseConverter):
     def __init__(self, url_map, false_value, true_value):
         super(BoolConverter, self).__init__(url_map)
