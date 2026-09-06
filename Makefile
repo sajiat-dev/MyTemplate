@@ -23,14 +23,11 @@ prepare:
 
 # Run backend tests and save the artifacts for CI reporting.
 test: prepare
-	$(PYTHON) -m pytest -v \
+	$(PYTHON) -m pytest -v tests/ --ignore=tests/test_ui.py \
 		--junitxml=$(ARTIFACTS)/junit/pytest.xml \
 		--cov=appname \
 		--cov-report=xml:$(ARTIFACTS)/coverage/coverage.xml \
 		--cov-report=html:$(ARTIFACTS)/coverage/html
-
-ui-test: prepare
-	$(PYTHON) scripts/run_ui_tests.py
 
 # Run static analysis and linting.
 lint:
@@ -43,6 +40,9 @@ security:
 # Validate Python source compilation.
 build:
 	$(PYTHON) -m compileall appname
+
+ui-test: prepare
+	$(PYTHON) scripts/run_ui_tests.py
 
 # Run the complete CI validation.
 ci: lint security test ui-test build
