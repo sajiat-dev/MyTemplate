@@ -9,7 +9,7 @@ else
     PYTHON := $(VENV)/bin/python
 endif
 
-.PHONY: install test lint security build ci clean
+.PHONY: install prepare test lint security build ui-test ci clean
 
 # Create the virtual environment and install all dependencies.
 install:
@@ -19,7 +19,7 @@ install:
 
 #prepare the artifacts directories for test results and coverage reports.
 prepare:
-	$(SYSTEM_PYTHON) -c "import os; os.makedirs('$(ARTIFACTS)/junit', exist_ok=True); os.makedirs('$(ARTIFACTS)/coverage', exist_ok=True)"
+	$(SYSTEM_PYTHON) -c "import os; os.makedirs('$(ARTIFACTS)/junit', exist_ok=True); os.makedirs('$(ARTIFACTS)/coverage', exist_ok=True); os.makedirs('$(ARTIFACTS)/playwright', exist_ok=True)"
 
 # Run backend tests and save the artifacts for CI reporting.
 test: prepare
@@ -28,6 +28,9 @@ test: prepare
 		--cov=appname \
 		--cov-report=xml:$(ARTIFACTS)/coverage/coverage.xml \
 		--cov-report=html:$(ARTIFACTS)/coverage/html
+
+ui-test: prepare
+	$(PYTHON) scripts/run_ui_tests.py
 
 # Run static analysis and linting.
 lint:
@@ -42,7 +45,7 @@ build:
 	$(PYTHON) -m compileall appname
 
 # Run the complete CI validation.
-ci: lint security test build
+ci: lint security test ui-test build
 
 # Remove generated Python/test files and the virtual environment.
 clean:
