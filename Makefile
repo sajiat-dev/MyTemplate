@@ -23,7 +23,7 @@ prepare:
 
 # Run backend tests and save the artifacts for CI reporting.
 test: prepare
-	$(PYTHON) -m pytest -v tests/ --ignore=tests/test_ui.py \
+	$(PYTHON) -m pytest -v tests/ --ignore=tests/MyTemplate_test_ui.py \
 		--junitxml=$(ARTIFACTS)/junit/pytest.xml \
 		--cov=appname \
 		--cov-report=xml:$(ARTIFACTS)/coverage/coverage.xml \

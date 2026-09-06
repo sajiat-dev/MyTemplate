@@ -50,7 +50,7 @@ def main():
                 sys.executable,
                 "-m",
                 "pytest",
-                "tests/test_ui.py",
+                "tests/MyTemplate_test_ui.py",
                 "-v",
                 "--junitxml=artifacts/junit/playwright.xml",
                 "--output=artifacts/playwright",
