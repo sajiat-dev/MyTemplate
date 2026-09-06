@@ -1,14 +1,19 @@
-FROM python:3
+FROM python:3.12-slim
 
-RUN apk add --update ca-certificates;
+WORKDIR /app
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-ONBUILD RUN pip install --no-cache-dir -r requirements.txt
-ONBUILD COPY . /usr/src/app
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-CMD gunicorn -w 0.0.0.0:5000 wsgi:app
+# Required directories for SQLite and local file storage.
+RUN mkdir -p /app/data/uploads
 
-RUN rm -rf /var/cache/apk/*
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
 
 EXPOSE 5000
+
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "1", "wsgi:app"]

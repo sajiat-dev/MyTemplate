@@ -88,3 +88,40 @@ class TestConfig(Config):
     CACHE_NO_NULL_WARNING = True
     WTF_CSRF_ENABLED = False
     RQ_ASYNC = False
+
+class DemoConfig(Config):
+    """
+    Lightweight configuration for the AWS assessment deployment.
+
+    Uses local SQLite, in-process caching and local file storage so that
+    no external database or Redis service is required.
+    """
+
+    ENV = 'demo'
+    DEBUG = False
+
+    # SQLite database persisted through the Docker volume.
+    SQLALCHEMY_DATABASE_URI = os.getenv(
+        'DATABASE_URL',
+        'sqlite:////app/data/database.db'
+    )
+
+    # No Redis required.
+    CACHE_TYPE = 'SimpleCache'
+    CACHE_KEY_PREFIX = 'appname-'
+
+    # Run background jobs synchronously.
+    RQ_ASYNC = False
+
+    # Local file storage.
+    STORAGE_PROVIDER = 'LOCAL'
+    STORAGE_CONTAINER = os.getenv(
+        'STORAGE_CONTAINER',
+        '/app/data/uploads'
+    )
+    STORAGE_SERVER = True
+    STORAGE_SERVER_URL = '/files'
+
+    # The demo is accessed over HTTP, not HTTPS.
+    SESSION_COOKIE_SECURE = False
+    REMEMBER_COOKIE_SECURE = False
