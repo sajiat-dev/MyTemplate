@@ -36,3 +36,11 @@ jobs:
 
       - name: Run CI
         run: make ci
+      
+      - name: Upload build artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: artifacts/
+          if-no-files-found: warn
