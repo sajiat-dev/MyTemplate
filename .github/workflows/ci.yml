@@ -31,5 +31,8 @@ jobs:
       - name: Install dependencies
         run: make install
 
+      - name: Install Playwright browsers
+        run: .venv/bin/python -m playwright install --with-deps chromium
+
       - name: Run CI
         run: make ci
